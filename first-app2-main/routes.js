@@ -109,10 +109,6 @@ router.post('/cadastro/add',(req,res)=>{
     user.email = req.body._email;
     user.address = req.body._address;
     user.heigth = req.body._heigth;
-    var age_n = parseInt(req.body._age, 10);
-    if (Number.isInteger(age_n)) {
-        console.log("Carai meu irmão o bagulho é loco");
-    }
     user.age = req.body._age;
     user.vote = req.body._vote;
 

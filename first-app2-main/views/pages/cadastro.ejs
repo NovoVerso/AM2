@@ -21,6 +21,7 @@
 
             <% let linkRemove="/cadastro/remove/"; %>
             <% let linkUpdate="/cadastro/update/"; %>
+            <% let linkAdd="/cadastro/add/"; %>
 
             <% if(users.length >0){%>
                 <% for(let index=0;index<users.length;index++){ %>
@@ -79,7 +80,7 @@
 
     <h2>Cadastrar novo usuário</h2>
 
-    <form name="cadastro" action="/cadastro/add" method="post" onsubmit="return(validaForm(document.cadastro))">
+    <form name="cadastro" action="#">
         <div class="form-group">
             <label for="_name">Nome:</label>
             <input type="text" name="_name" id="_name" class="form-control">
@@ -96,22 +97,22 @@
         </div>
 
         <div class="form-group">
-            <label for="_heigth">Altura:</label>
-            <input type="text" name="_heigth" id="_heigth" class="form-control">
+            <label for="_age">Idade:</label>
+            <input type="number" name="_age" id="_age" class="form-control">
         </div>
 
         <div class="form-group">
-            <label for="_age">Idade:</label>
-            <input type="text" name="_age" id="_age" class="form-control">
+            <label for="_heigth">Altura:</label>
+            <input type="number" name="_heigth" id="_height" class="form-control">
         </div>
 
         <div class="form-group">
             <label for="_vote">Votou:</label>
-            <input type="text" name="_vote" id="_vote" class="form-control">
+            <input type="checkbox" name="_vote" id="_vote" class="form-control">
         </div>
 
         <div class="form-group">
-            <input type="submit" value="Enviar"  class="btn btn-success">
+            <input type="button" onclick="add(document.cadastro,'<%=linkAdd%>')" value="Enviar"  class="btn btn-success">
         </div>
 
     </form>

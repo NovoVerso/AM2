@@ -16,6 +16,7 @@ function validaUpdate(data){
         data[1].focus();
         return false;
     }
+
     if (!Number.isInteger(Number(data[3].value))){
         alert("O baguio não tá inteiro mano");
         return false;
@@ -35,30 +36,65 @@ pois a chamada da função - validaForm(this) foi
 definida na tag form.
 */  
     //validação de nome
-    if (data.name.value == "") {
-        alert("Nenhum nome foi digitado, por favor, verifique o campo Name e tente novamente.");
-        data.name.focus();
-        return false;
-    }
-
-    if (data.name.value.indexOf(/\d/)!=-1){
-        alert("Números são caracteres inválidos em nomes, por favor, verifique o campo Name e tente novamente.");
-        data.name.focus();
-        return false;
-    }
-
-    if (data.name.email == "") {
-        alert("Nenhum e-mail foi digitado, por favor, verifique o campo Email e tente novamente.");
+    if (data._name.value == "") {
+        alert("Nenhum nome foi digitado, verifique o campo Nome e tente novamente.");
         data._name.focus();
         return false;
-    } 
-    if(data.email.value.indexOf("@") == -1 ||
-    data.email.valueOf.indexOf(".") == -1 ||
-    data.email.value == null) {
-        alert("Nenhum e-mail foi digitado, por favor, verifique o campo Email e tente novamente.");
-        data.email.focus();
+    }
+    
+    if (data._name.value.search(/\d/)!=-1){
+        alert("Números são caracteres inválidos em nomes, verifique o campo Nome e tente novamente.");
+        data._name.focus();
         return false;
     }
+
+    if (data._email == "") {
+        alert("Nenhum e-mail foi digitado, verifique o campo E-mail e tente novamente.");
+        data._email.focus();
+        return false;
+    } 
+    if(data._email.value.indexOf("@") == -1 ||
+    data._email.value.indexOf(".") == -1) {
+        alert("Esse E-mail é inválido, verifique o campo E-mail e tente novamente.");
+        data._email.focus();
+        return false;
+    }
+
+    if (data._address.value == "") {
+        alert("Nenhum endereço foi digitado, verifique o campo Endereço e tente novamente.");
+        data._address.focus();
+        return false;
+    }
+
+    if (!Number.isInteger(Number(data._age.value))){
+        alert("Esta idade não é válida, verifique se o valor é inteiro.");
+        data._age.focus();
+        return false;
+    }
+
+    if (data._age.value == "") {
+        alert("Nenhuma idade foi digitado, verifique o campo Idade e tente novamente.");
+        data._age.focus();
+        return false;
+    }
+    if (Number(data._age.value) < 0 || Number(data._age.value)>100 ) {
+        alert("Valor inválido para idade, verifique o campo Idade e tente novamente.");
+        data._age.focus();
+        return false;
+    }
+
+    if (data._height.value == "") {
+        alert("Nenhuma altura foi digitado, verifique o campo Altura e tente novamente.");
+        data._height.focus();
+        return false;
+    }
+
+    if (Number(data._height.value) < 1.0 || Number(data._height.value)>2.4 ) {
+        alert("Valor inválido para idade, verifique o campo Idade e tente novamente.");
+        data._height.focus();
+        return false;
+    }
+    
 
 //Verifica se o campo nome foi preenchido e
     //contém no mínimo três caracteres.
@@ -128,8 +164,6 @@ function update(index,link){
         let data = {id:"",name:"",email:"",address:"",age:"",heigth:"",vote:""};
         let dataToSend;
 
-
-
         http.open("POST",link,true); //abre uma comunicação com o servidor através de uma requisição POST
         //Se no servidor nao houver um elemento esperando por uma mensagem POST (ex. router.post()) para a rota /cadastro/update ocorrerar um erro: 404 - File Not Found
 
@@ -192,8 +226,14 @@ function update(index,link){
             if (http.readyState === 4 && http.status === 200) { //testa se o envio foi bem sucedido
                 for(let cont=0;cont<spans.length;cont++){
                     if(spans[cont].className=="hidden"){
-                        spans[cont].innerHTML = inputs[cont].value;
+                        if (cont==5){
+                            spans[cont].innerHTML = inputs[cont].checked;
+                            spans[cont].className="show"; 
+                        }
+                        else{
+                            spans[cont].innerHTML = inputs[cont].value;
                         spans[cont].className="show";
+                        }
                     } else{
                         spans[cont].className="hidden";
                     }
@@ -213,7 +253,6 @@ function update(index,link){
                 linkRemove.className='show';
                 tds[lenTds-2].className='hidden';
             } else {
-
                 console.log("Ocorreu erro no processamento dos dados no servidor: ",http.responseText);
             }     
         }
@@ -276,7 +315,7 @@ function remove(index,_name,link){ //(index,link)
 
     // baseado nos valores acima apresentados, o codigo abaixo mostra o que foi enviado pelo servidor como resposta ao envio de dados. No caso, se o request foi finalizado e o response foi recebido, a mensagem recebida do servidor eh mostrada no console do navegador. esse codigo foi feito apenas para verificar se tudo ocorreu bem no envio
 
-    http.onload = ()=>{ 
+    http.onload = ()=>{
         
         //seleciona todas as tags que sejam td 
         let tr = document.querySelector(`table#list > tbody > tr[data-index-row='${index}']`);
@@ -293,8 +332,12 @@ function remove(index,_name,link){ //(index,link)
     }
 }
    
-function add(data){
-    //Adiciona um dado novo
+function add(form, link){
+    if (validaForm(form)){
+        return true;
+    };
+
+    return false;
 }
 
 function list(){
