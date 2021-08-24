@@ -7,8 +7,8 @@
         <thead class="thead-dark">
         <tr>
             <th>Nome</th>
-            <th>Endereço</th>
             <th>Email</th>
+            <th>Endereço</th>
             <th>Idade</th>
             <th>Altura</th>
             <th>Vota?</th>
@@ -40,18 +40,17 @@
                     </td>
                     <td data-index-row="<%=index%>">
                         <span  class="show"><%= users[index].age %></span>
-                        <input type="text" name="age"  class="hidden" value="<%= users[index].age %>">
+                        <input type="number" name="age"  min="1" max="100" step="1" class="hidden" value="<%= users[index].age %>">
                         
                     </td>
                     <td data-index-row="<%=index%>">
                         <span  class="show"><%= users[index].heigth %></span>
-                        <input type="text" name="heigth"  class="hidden" value="<%= users[index].heigth %>">
+                        <input type="number" name="heigth" class="hidden" value="<%= users[index].heigth %>">
                         
                     </td>
                     <td data-index-row="<%=index%>">
                         <span  class="show"><%= users[index].vote %></span>
-                        <input type="text" name="vote" class="hidden" value="<%= users[index].vote %>">
-                        
+                        <input type="checkbox" name="vote" class="hidden" value="<%= users[index].vote %>">
                     </td>
                     <td data-index-row="<%=index%>" class="hidden" data-index-row="<%=index%>">
                         <input type="button" value="Atualizar" class="hidden" >

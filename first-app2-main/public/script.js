@@ -1,15 +1,31 @@
 let cadastro;
 
+//instalar o nodemon
 function validaUpdate(data){
+    alert(data[5].checked);
     for(i = 0; i<6;i++){   
         if (data[i].value == "" || data[i].value == null){
-            alert("Tem campo vazio")
+            alert("Temc oisa vazia ae")
             return false;
         }
-        alert(data[i].value);
     }
+
+    if(data[1].value.indexOf("@") == -1 ||
+    data[1].value.indexOf(".") == -1) {
+        alert("Esse e-mail é inválido.");
+        data[1].focus();
+        return false;
+    }
+    if (!Number.isInteger(Number(data[3].value))){
+        alert("O baguio não tá inteiro mano");
+        return false;
+    }
+
     alert("Deu bom pvt")
+    
     return true;
+    
+    
 }
 
 function validaForm(data){
@@ -149,7 +165,7 @@ function update(index,link){
         data.address = inputs[2].value;
         data.age = inputs[3].value;
         data.heigth = inputs[4].value;
-        data.vote = inputs[5].value;
+        data.vote = inputs[5].checked;
 
         dataToSend = JSON.stringify(data); //transforma o objeto literal em uma string JSON que é a representação em string de um objeto JSON. Se quisesse o objeto no formato binario, usaria: JSON.parse(data)
 
