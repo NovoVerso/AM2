@@ -5,7 +5,8 @@ function validaUpdate(data){
     alert(data[5].checked);
     for(i = 0; i<6;i++){   
         if (data[i].value == "" || data[i].value == null){
-            alert("Temc oisa vazia ae")
+            alert("Tem coisa vazia ae")
+            data[i].focus();
             return false;
         }
     }
@@ -90,7 +91,7 @@ definida na tag form.
     }
 
     if (Number(data._height.value) < 1.0 || Number(data._height.value)>2.4 ) {
-        alert("Valor inválido para idade, verifique o campo Idade e tente novamente.");
+        alert("Valor inválido para altura, verifique o campo Altura e tente novamente.");
         data._height.focus();
         return false;
     }
@@ -332,40 +333,141 @@ function remove(index,_name,link){ //(index,link)
     }
 }
    
-function add(form, link){
+function add(form, link){    
     if (validaForm(form)){
-        return true;
-    };
+        const http = new XMLHttpRequest(); //cria um objeto para requisição ao servidor
+        const url=link;
 
-    return false;
+        let data = {id:"",name:"",email:"",address:"",age:"",heigth:"",vote:""};
+        let dataToSend;
+    
+        http.open("POST",link,true); //abre uma comunicação com o servidor através de uma requisição POST
+
+        http.setRequestHeader('Content-Type','application/json'); //constroi um cabecalho http para envio dos dados
+        data.id = 1000; //esse dado nao existe no vetor Users do lado do servidor (backend), mas preciso dele para apontar o indice do vetor que quero modificar
+        data.name = form._name.value;
+        alert(data.name);
+        data.email = form._email.value;
+        data.address = form._address.value;
+        data.age = form._age.value;
+        data.heigth = form._height.value;
+        data.vote = form._vote.checked;
+
+        //dataToSend = JSON.stringify({id:index}); //transforma o objeto literal em uma string JSON que é a representação em string de um objeto JSON
+        dataToSend = JSON.stringify(data); //transforma o objeto literal em uma string JSON que é a representação em string de um objeto JSON. Se quisesse o objeto no formato binario, usaria: JSON.parse(data)
+    
+        http.send(dataToSend);//envia dados para o servidor na forma de JSON
+    
+        /* este codigo abaixo foi colocado para que a interface de cadastro so seja modificada quando se receber um aviso do servidor que a modificacao foi feita com sucesso. No caso o aviso vem na forma do codigo 200 de HTTP: OK */
+    
+        /*
+        readyState:
+        0: request not initialized
+        1: server connection established
+        2: request received
+        3: processing request
+        4: request finished and response is ready
+    
+        status:
+        200: "OK"
+        403: "Forbidden"
+        404: "Page not found"
+        */
+    
+        // baseado nos valores acima apresentados, o codigo abaixo mostra o que foi enviado pelo servidor como resposta ao envio de dados. No caso, se o request foi finalizado e o response foi recebido, a mensagem recebida do servidor eh mostrada no console do navegador. esse codigo foi feito apenas para verificar se tudo ocorreu bem no envio
+        http.onload = ()=>{
+            
+            //seleciona todas as tags que sejam td 
+            // let tr = document.querySelector(`table#list > tbody > tr[data-index-row='${index}']`);
+    
+            if (http.readyState === 4 && http.status === 200) {
+                alert("Ei man, deu bom ó");
+                list(data);
+    
+            } else {
+                console.log(`Erro durante a tentativa de remoção do usuário: ${_name}! Código do Erro: ${http.status}`); 
+            }
+            
+    
+        }
+    };
 }
 
-function list(){
+function populateTable(table, content) {
+    alert('<span>'+content[0].name+'</span>');
+    for (var i = 0; i < content.length; ++i) {
+        keys = Object.keys(content[i]);
+        var row = document.createElement('tr');
+        
+        for (var j=0;j<6;j++){
+            var newCell =  row.insertCell(j);
+            newCell.innerHTML = '<span>'+content[i][keys[j]]+'</span>';
+        }
+        table.appendChild(row);
+    }
+    return table;
+}
+
+function listar(link){
+    
+    const http = new XMLHttpRequest(); //cria um objeto para requisição ao servidor
+    const url=link;
+
+    http.open('GET',link,true); //abre uma comunicação com o servidor através de uma requisição POST
+    http.setRequestHeader('Content-Type','application/json'); //constroi um cabecalho http para envio dos dados
+    http.send(null);//envia dados para o servidor na forma de JSON
+    /* este codigo abaixo foi colocado para que a interface de cadastro so seja modificada quando se receber um aviso do servidor que a modificacao foi feita com sucesso. No caso o aviso vem na forma do codigo 200 de HTTP: OK */
+
+    /*
+    readyState:
+    0: request not initialized
+    1: server connection established
+    2: request received
+    3: processing request
+    4: request finished and response is ready
+
+    status:
+    200: "OK"
+    403: "Forbidden"
+    404: "Page not found"
+    */
+
+    // baseado nos valores acima apresentados, o codigo abaixo mostra o que foi enviado pelo servidor como resposta ao envio de dados. No caso, se o request foi finalizado e o response foi recebido, a mensagem recebida do servidor eh mostrada no console do navegador. esse codigo foi feito apenas para verificar se tudo ocorreu bem no envio
+
+    http.onload = ()=>{
+        if (http.readyState === 4 && http.status === 200) {
+            let lista = JSON.parse(http.response)
+            populateTable(document.getElementById('list-users'), lista);
+        } else {
+            console.log(`Erro durante a tentativa de remoção do usuário: ${_name}! Código do Erro: ${http.status}`); 
+        }
+        
+
+    }
+    
+    //populateTable(document.getElementById('list-users'), datas);
+
     //fazer em casa. Lista de usuários.
 
     //Primeira parte: envia mensagem para o servidor pedindo uma listagem dos usuários
 
     //Segunda parte: apos recebimento da lista de usuarios, no formato JSON, colocar os usuarios na interface
-    let tableList = document.getElementById("list");
-
-    let tr = document.createElement("tr");
-    let td = document.createElement("td");
-    let span = document.createElement("span");
-    let cont;
-    //for(let cont=0;cont<datas.length;cont++){ 
-        td.setAttribute(`data-index-row=${cont}`);
-        span.innerHTML =  Object.keys(datas[cont])[0] //keys 0 - name, 1 - email
-        span.className="show";
-        td.appendChild(span);
-        tr.appendChild(td);
+    // let tableList = document.getElementById("list");
+    // alert("Teste list 1")
+    // let tr = document.createElement("tr");
+    // let td = document.createElement("td");
+    // let span = document.createElement("span");
+    // var cont;
+    // alert("Teste list 2")
+    // for(cont = 0;cont<2;cont++){ 
+    //     alert("Teste list 3")
+    //     td.setAttribute(`data-index-row=${cont}`);
+    //     span.innerHTML =  Object.keys(datas[cont])[0] //keys 0 - name, 1 - email
+    //     span.className="show";
+    //     td.appendChild(span);
+    //     tr.appendChild(td);
         
-        tableList.appendChild(tr);
-    //}
-
+    //     tableList.appendChild(tr);
+    // }
 }
-
-   
-
-
-
 

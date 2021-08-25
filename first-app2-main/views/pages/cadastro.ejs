@@ -3,7 +3,7 @@
 <div class="table-responsive-xl ">
     <h2>Usuários Cadastrados</h2>
     <p>Lista de usuários Cadastrados no sistema.</p>            
-    <table class="table table-hover bg-light" id="list">
+    <table name="aa" class="table table-hover bg-light" id="list">
         <thead class="thead-dark">
         <tr>
             <th>Nome</th>
@@ -117,5 +117,27 @@
 
     </form>
 
+    <!-- <% let linklist="/cadastro/list/"; %> -->
+
+    <input type="button" onclick="listar('/cadastro/list/')" value="Listar Usuários"  class="btn btn-success">
+    <div class="table-responsive-xl ">
+        <h2>Lista de Usuários</h2>
+        <p>Lista de usuários Cadastrados no sistema.</p>            
+        <table class="table table-hover bg-light" id="list-users">
+            <thead class="thead-dark">
+            <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Endereço</th>
+                <th>Idade</th>
+                <th>Altura</th>
+                <th>Vota?</th>
+            </tr>
+            </thead>
+        </table>
+    </div>
     
 </div>
+
+
+
