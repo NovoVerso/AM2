@@ -92,7 +92,6 @@ router.post('/cadastro/update',(req,res)=>{
     users[req.body.id].heigth=req.body.heigth;
     users[req.body.id].vote=req.body.vote;
 
-
     res.sendStatus(200); //envia mensagem 200 significando que as modificacoes foram ok
     console.log("Dados recebidos: ",req.body);//mostra no console do servidor os dados recebidos
 });
@@ -100,16 +99,16 @@ router.post('/cadastro/update',(req,res)=>{
 router.get('/cadastro/list',(req,res)=>{
 
     console.log("Olha a lista ae: ",users); //nao use esta linha se tiver muitos elementos em users pois causara lentidao no servidor
-    //let dados = JSON.parse(users);
+    //captura os dados de usuários (users) e transforma o vetor de objetos em uma string JSON, para ser enviada ao cliente
     res.send(JSON.stringify(users));
-    res.sendStatus(200);
-    res.status(200).json({
-        status:'sucess',
-        data: `Lista foi adiocionado com sucesso!`
-    });
+    // res.status(200).json({
+    //     status:'sucess',
+    //     data: `Lista foi adiocionado com sucesso!`
+    // });
 });
 
 router.post('/cadastro/add',(req,res)=>{
+    
     let user={name:"",email:"",address:"",heigth:"",age:"",vote:""};
 
     user.name = req.body.name;
