@@ -14,6 +14,7 @@ Wellington Wagner F. Sarmento
 
 Lilian Paula Lima de Maria
 Vaneska Karen de Sousa Silva
+Rightsaidfre - https://stackoverflow.com/users/376743/rightsaidfred
 
 ## Licença
 

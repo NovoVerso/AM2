@@ -348,6 +348,7 @@ function add(form, link){
 }
 
 //essa função limpa para depois adicionar linhas em uma tabela (table), com conteúdo de cada célula inserido no parâmetro content (deve ser um array de objetos)
+//inpirado por https://stackoverflow.com/questions/8302166/dynamic-creation-of-table-with-dom https://stackoverflow.com/users/376743/rightsaidfred
 function populateTable(table, content) {
     //limpeza de tabela, o método firstChild captura o primeiro nodo na lista de nodos da tabela
     while (table.firstChild){
