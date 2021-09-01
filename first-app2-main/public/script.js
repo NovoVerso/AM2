@@ -293,7 +293,7 @@ function add(form, link){
 
         //array que será enviado ao servidor
         let data = {id:"",name:"",email:"",address:"",age:"",heigth:"",vote:""};
-        let dataToSend;
+        let dataToSend; 
     
         http.open("POST",link,true); //abre uma comunicação com o servidor através de uma requisição POST
 
